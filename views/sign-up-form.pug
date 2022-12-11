@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  a(href='/')
+    button.home-button Home
+  div.flex-center.height-full
+    form(method='POST' action='').form-container
+      label(for='firstName') First Name:
+      br
+      input#firstName(type='text' name='firstName' placeholder='John')
+      label(for='lastName') Last Name:
+      br
+      input#lastName(type='text' name='lastName' placeholder='Smith')
+      label(for='password') Password:
+      br
+      input#password(type='password' name='password')
+      br
+      br
+      input(type='submit' value="Submit")#sign-up-button
