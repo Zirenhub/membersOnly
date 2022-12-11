@@ -1,0 +1,53 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.height-full {
+  height: 100vh;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
+  border: 1px solid #d8d8d8;
+  background-color: #efefef;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.form-container > input {
+  font-size: 1.2rem;
+  padding: 5px;
+}
+
+.home-button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
+.home-button:hover {
+  text-decoration: underline;
+}
+
+#password {
+  margin-bottom: 10px;
+}
+
+#sign-up-button {
+  cursor: pointer;
+}
