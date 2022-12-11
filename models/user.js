@@ -11,10 +11,6 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  membershipStatus: {
-    type: Boolean,
-    required: true,
-  },
   password: {
     type: String,
     required: true,
