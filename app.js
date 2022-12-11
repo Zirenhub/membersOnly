@@ -30,8 +30,8 @@ app.use(
 );
 
 passport.use(
-  new localStrategy((username, password, done) => {
-    User.findOne({ username: username }, (err, user) => {
+  new localStrategy((email, password, done) => {
+    User.findOne({ email: email }, (err, user) => {
       if (err) {
         return done(err);
       }
@@ -46,21 +46,30 @@ passport.use(
   })
 );
 
-passport.serializeUser((user, done) => {
+passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
     done(err, user);
   });
 });
 
+app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => res.render('index'));
+app.post(
+  '/log-in',
+  passport.authenticate('local', {
+    successRedirect: '/yes',
+    failureRedirect: '/no',
+  })
+);
+app.get('/', (req, res) => {
+  res.render('index', { user: req.user });
+});
 app.use('/sign-up', signUpRouter);
 app.use('/log-in', logInRouter);
 
