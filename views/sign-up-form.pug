@@ -2,18 +2,29 @@ extends layout
 
 block content
   a(href='/')
-    button.home-button Home
+    button.default-button Home
   div.flex-center.height-full
     form(method='POST' action='').form-container
       label(for='firstName') First Name:
-      br
-      input#firstName(type='text' name='firstName' placeholder='John')
+      input#firstName(type='text' name='firstName' placeholder='John' value= firstName)
+      |
       label(for='lastName') Last Name:
-      br
-      input#lastName(type='text' name='lastName' placeholder='Smith')
+      input#lastName(type='text' name='lastName' placeholder='Smith' value= lastName)
+      |
+      label(for='email') Email:
+      input#email(type='email' name='email' placeholder='johnsmith2211@gmail.com' value= email)
+      |
       label(for='password') Password:
-      br
-      input#password(type='password' name='password')
+      input#password(type='password' name='password' value= password)
+      p.font-small Password must be atleast 8 characters.
+      |
+      label(for='confirmPassword') Confirm Password:
+      input#confirmPassword(type='password' name='confirmPassword' value= confirmPassword)
+      |
       br
       br
       input(type='submit' value="Submit")#sign-up-button
+      if errors
+        ul
+          for error in errors
+            li!= error.msg
