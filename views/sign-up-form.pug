@@ -3,7 +3,7 @@ extends layout
 block content
   a(href='/')
     button.default-button Home
-  div.flex-center.height-full
+  div.flex.justify-center.align-center.height-full
     form(method='POST' action='').form-container
       label(for='firstName') First Name:
       input#firstName(type='text' name='firstName' placeholder='John' value= firstName)
@@ -24,6 +24,10 @@ block content
       br
       br
       input(type='submit' value="Submit")#sign-up-button
+
+      div.flex.justify-end
+        a(href='/log-in') Log In
+
       if errors
         ul
           for error in errors

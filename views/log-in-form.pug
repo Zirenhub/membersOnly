@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  a(href='/')
+    button.default-button Home
+  div.flex.justify-center.align-center.height-full
+    form(method='POST' action='/log-in').form-container
+      label(for='email') Email:
+      input#email(type='email' name='email' placeholder='johnsmith2211@gmail.com')
+      |
+      label(for='password') Password:
+      input#password(type='password' name='password')
+      input(type='submit' value="Submit")#sign-up-button
+
+      div.flex.justify-end
+        a(href='/sign-up') Sign Up
+
+      if errors
+        ul
+          for error in errors
+            li!= error.msg

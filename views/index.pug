@@ -3,8 +3,13 @@ extends layout
 block content
   header.header-container
     h1 Members Only
-    div
-      a(href='/sign-up')
-        button.default-button Sign Up
-      a(href='/log-in')
-        button.default-button Log In
+    div.flex
+      if user
+        a(href='/')
+          button.default-button Log Out
+
+      else
+        a(href='/sign-up')
+          button.default-button Sign Up
+        a(href='/log-in')
+          button.default-button Log In
