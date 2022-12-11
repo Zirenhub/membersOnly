@@ -1,4 +1,10 @@
 extends layout
 
 block content
-  h1 Hello World.
+  header.header-container
+    h1 Members Only
+    div
+      a(href='/sign-up')
+        button.default-button Sign Up
+      a(href='/log-in')
+        button.default-button Log In
