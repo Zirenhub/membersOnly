@@ -9,8 +9,10 @@ const bcrypt = require('bcryptjs');
 // routes
 const signUpRouter = require('./routes/signUp');
 const logInRouter = require('./routes/logIn');
+const roomRouter = require('./routes/room');
 // models
 const User = require('./models/user');
+const Room = require('./models/room');
 
 const mongoDb = process.env.MONGODB_URL;
 mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true });
@@ -78,18 +80,23 @@ app.use((req, res, next) => {
 app.get('/log-out', (req, res) => {
   req.logout((err) => {
     if (err) {
-      // handle error
+      next(err);
     }
 
     res.redirect('/');
   });
 });
 
-app.get('/', (req, res) => {
-  res.render('index', { user: req.user });
+app.get('/', async (req, res) => {
+  const rooms = await Room.find({ password: '' }, 'name creator').sort({
+    name: 1,
+  });
+
+  res.render('index', { user: req.user, rooms: rooms });
 });
 app.use('/sign-up', signUpRouter);
 app.use('/log-in', logInRouter);
+app.use('/room', roomRouter);
 
 const PORT = process.env.PORT || 5000;
 

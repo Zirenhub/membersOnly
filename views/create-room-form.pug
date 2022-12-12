@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  a(href='/')
+    button.default-button Home
+  div.flex.justify-center.align-center.height-full
+    form(method='POST' action='').form-container
+      label(for='name') Room Name:
+      input#name(type='text' name='name' value= name)
+      |
+      label(for='password') Password:
+      input#password(type='password' name='password')
+      p.font-small Leave password empty if you want a public room.
+      |
+      br
+      br
+      input(type='submit' value="Create")#sign-up-button
+
+      if errors
+        ul
+          for error in errors
+            li!= error.msg

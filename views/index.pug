@@ -2,9 +2,13 @@ extends layout
 
 block content
   header.header-container
-    h1 Members Only
-    div.flex
+    h1 Only Members
+    div.flex.align-center
       if user
+        p.font-small Welcome #{user.firstName}
+        |
+        a(href='/room/create')
+          button.default-button Create Room
         a(href='/log-out')
           button.default-button Log Out
 
@@ -13,3 +17,18 @@ block content
           button.default-button Sign Up
         a(href='/log-in')
           button.default-button Log In
+
+  div.room-grid
+    each room in rooms
+      div.room-container
+        p= room.name
+        if user
+          if room.creator.equals(user._id)
+            a(href=room.url)
+              button.join-button Open
+          else
+            a(href=room.url)
+              button.join-button Join
+        else
+          a(href=room.url)
+            button.join-button Join

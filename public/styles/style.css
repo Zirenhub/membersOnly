@@ -42,7 +42,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  border-bottom: 3px solid #efefef;
+  border-bottom: 3px solid #d7d7d7;
 }
 
 .form-container {
@@ -76,7 +76,6 @@ body {
   outline: none;
   cursor: pointer;
   padding: 10px 15px;
-  min-width: 90px;
 }
 
 .default-button:hover {
@@ -85,6 +84,44 @@ body {
 
 .blue-text {
   color: blue;
+}
+
+.room-grid {
+  padding: 20px;
+  display: grid;
+  gap: 30px;
+  grid-template-columns: repeat(auto-fit, 350px);
+}
+
+.room-container {
+  color: #efefef;
+  background-image: url('../images/room-background.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 10px 0px;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+  transition: ease-in-out 200ms;
+}
+
+.room-container:hover {
+  transform: scale(1.050);
+}
+
+.join-button {
+  cursor: pointer;
+  background-color: #5dbea3;
+  border: none;
+  padding: 2px 15px;
+}
+
+.join-button:hover {
+  text-decoration: underline;
 }
 
 #sign-up-button {
