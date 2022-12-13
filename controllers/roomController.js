@@ -45,21 +45,23 @@ exports.create_room = [
 ];
 exports.open_room = async (req, res) => {
   const room = await Room.findById(req.params.id);
-  const messages = await Message.find({ roomId: room._id }).populate(
-    'author',
-    'firstName lastName'
-  );
+  if (room) {
+    const messages = await Message.find({ roomId: room._id }).populate(
+      'author',
+      'firstName lastName'
+    );
 
-  if (!room.members.includes(req.user._id)) {
-    room.members.push(req.user._id);
-    room.save((err) => {
-      if (err) {
-        return next(err);
-      }
-    });
+    if (!room.members.includes(req.user._id)) {
+      room.members.push(req.user._id);
+      room.save((err) => {
+        if (err) {
+          return next(err);
+        }
+      });
+    }
+
+    res.render('room', { room: room, messages: messages });
   }
-
-  res.render('room', { room: room, messages: messages });
 };
 exports.post_message = [
   body('message')
@@ -94,3 +96,27 @@ exports.post_message = [
     }
   },
 ];
+exports.leave_room = async (req, res, next) => {
+  Room.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $pull: { members: req.user._id } },
+    (err, result) => {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect('/');
+    }
+  );
+};
+exports.delete_room = async (req, res) => {
+  const room = await Room.findById(req.params.id);
+
+  if (room) {
+    if (room.creator.toString() === req.user._id.toString()) {
+      await Message.deleteMany({ roomId: req.params.id });
+      await room.deleteOne();
+      return res.redirect('/');
+    }
+    res.send("You can't delete this project.");
+  }
+};

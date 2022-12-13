@@ -2,10 +2,16 @@ extends layout
 
 block content
   div.flex.flex-column.height-full
-    header(style={'position': 'relative'}).header-container
+    header.flex.align-center
       a(href='/')
         button.default-button Home
-      h1(style={'position': 'absolute', 'left': '50%', 'transform': 'translateX(-50%)'}) #{room.name}
+      h4.flex-grow.text-center #{room.name}
+      if currentUser._id.equals(room.creator)
+        a(href=`/room/${room._id}/delete`)
+          button.default-button Delete Chat
+      else 
+        a(href=`/room/${room._id}/leave`)
+          button.default-button Leave Chat
     div.chat-container.flex-grow
       div.messages-container
         each message in messages
