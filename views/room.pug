@@ -1,6 +1,27 @@
 extends layout
 
 block content
-  div.flex
-    a(href='/')
-      button.default-button Home
+  div.flex.flex-column.height-full
+    header(style={'position': 'relative'}).header-container
+      a(href='/')
+        button.default-button Home
+      h1(style={'position': 'absolute', 'left': '50%', 'transform': 'translateX(-50%)'}) #{room.name}
+    div.chat-container.flex-grow
+      div.messages-container
+        each message in messages
+          if message.author.equals(currentUser._id)
+            p.message-auhtor.author= message.author.firstName + ' ' + message.author.lastName
+            div.message-container.author
+              p= message.content
+          else
+            p.message-auhtor= message.author.firstName + ' ' + message.author.lastName
+            div.message-container
+              p= message.content
+      form(method='POST' action='')
+        div.flex.width-full
+          input#message(type='text' name='message').flex-grow.message-input
+          input(type='submit' value="Send").send-button
+      if errors
+          for error in errors
+            div
+              p!= error.msg

@@ -16,6 +16,7 @@ const RoomSchema = new Schema({
     ref: 'User',
     required: true,
   },
+  members: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }],
 });
 
 RoomSchema.pre('save', function (next) {

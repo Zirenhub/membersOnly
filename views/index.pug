@@ -22,8 +22,9 @@ block content
     each room in rooms
       div.room-container
         p= room.name
+        p Members: #{room.members.length}
         if user
-          if room.creator.equals(user._id)
+          if room.members.includes(user._id)
             a(href=room.url)
               button.join-button Open
           else
