@@ -49,6 +49,10 @@ body {
   flex-direction: column;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .header-container {
   display: flex;
   align-items: center;
