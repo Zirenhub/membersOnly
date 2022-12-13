@@ -24,14 +24,22 @@ block content
     each room in rooms
       div.room-container
         p= room.name
+        if room.password === 'true'
+          p Private
+        else
+          p Public
         p Members: #{room.members.length}
         if user
           if room.members.includes(user._id)
             a(href=room.url)
               button.join-button Open
+          else if room.password === 'true'
+            form(method='POST' action=`/private/${room._id}`)
+              input#password(type='password' name='password')
+              input(type='submit' value="Join").join-button
           else
             a(href=room.url)
               button.join-button Join
         else
-          a(href=room.url)
+          a(href='/sign-up')
             button.join-button Join
