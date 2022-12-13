@@ -90,6 +90,11 @@ app.get('/log-out', (req, res) => {
 app.get('/', async (req, res) => {
   let rooms = await Room.aggregate([
     {
+      $match: {
+        password: '',
+      },
+    },
+    {
       $project: {
         name: 1,
         members: 1,
@@ -115,6 +120,15 @@ app.get('/', async (req, res) => {
 app.use('/sign-up', signUpRouter);
 app.use('/log-in', logInRouter);
 app.use('/room', roomRouter);
+app.use('/my-rooms', async (req, res) => {
+  if (req.user) {
+    const rooms = await Room.find({ creator: req.user._id });
+
+    res.render('index', { user: req.user, rooms: rooms });
+  } else {
+    res.redirect('/');
+  }
+});
 
 const PORT = process.env.PORT || 5000;
 
