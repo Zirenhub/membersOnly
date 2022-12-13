@@ -88,9 +88,27 @@ app.get('/log-out', (req, res) => {
 });
 
 app.get('/', async (req, res) => {
-  const rooms = await Room.find({ password: '' }, 'name creator').sort({
-    name: 1,
-  });
+  let rooms = await Room.aggregate([
+    {
+      $project: {
+        name: 1,
+        members: 1,
+        length: { $size: '$members' },
+      },
+    },
+
+    { $sort: { length: -1 } },
+
+    {
+      $project: {
+        name: 1,
+        members: 1,
+      },
+    },
+  ]);
+
+  // get back virtuals
+  rooms = rooms.map((room) => Room.hydrate(room));
 
   res.render('index', { user: req.user, rooms: rooms });
 });
