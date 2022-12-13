@@ -90,24 +90,42 @@ app.get('/log-out', (req, res) => {
 app.get('/', async (req, res) => {
   let rooms = await Room.aggregate([
     {
-      $match: {
-        password: '',
-      },
-    },
-    {
       $project: {
         name: 1,
         members: 1,
+        password: 1,
         length: { $size: '$members' },
       },
     },
 
-    { $sort: { length: -1 } },
+    {
+      $sort: { length: -1 },
+    },
+
+    {
+      $addFields: {
+        password: {
+          $cond: {
+            if: {
+              $eq: [
+                {
+                  $ifNull: ['$password', ''],
+                },
+                '',
+              ],
+            },
+            then: false,
+            else: true,
+          },
+        },
+      },
+    },
 
     {
       $project: {
         name: 1,
         members: 1,
+        password: 1,
       },
     },
   ]);
