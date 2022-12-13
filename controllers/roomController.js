@@ -12,6 +12,7 @@ exports.create_room = [
   body('password').trim().escape(),
 
   (req, res, next) => {
+    // add name max length
     const errors = validationResult(req);
 
     const body = {
@@ -46,11 +47,6 @@ exports.create_room = [
 exports.open_room = async (req, res) => {
   const room = await Room.findById(req.params.id);
   if (room) {
-    const messages = await Message.find({ roomId: room._id }).populate(
-      'author',
-      'firstName lastName'
-    );
-
     if (!room.members.includes(req.user._id)) {
       room.members.push(req.user._id);
       room.save((err) => {
@@ -59,7 +55,10 @@ exports.open_room = async (req, res) => {
         }
       });
     }
-
+    const messages = await Message.find({ roomId: room._id }).populate(
+      'author',
+      'firstName lastName'
+    );
     res.render('room', { room: room, messages: messages });
   }
 };
