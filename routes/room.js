@@ -17,6 +17,8 @@ router.get('/create', roomController.index);
 router.get('/:id/leave', roomController.leave_room);
 router.get('/:id/delete', roomController.delete_room);
 
+router.post('/:id/private', roomController.join_private);
+
 router.post('/:id', roomController.post_message);
 router.get('/:id', roomController.open_room);
 

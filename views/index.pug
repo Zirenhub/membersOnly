@@ -34,7 +34,7 @@ block content
             a(href=room.url)
               button.join-button Open
           else if room.password === 'true'
-            form(method='POST' action=`/private/${room._id}`)
+            form(method='POST' action=`/room/${room._id}/private`)
               input#password(type='password' name='password')
               input(type='submit' value="Join").join-button
           else

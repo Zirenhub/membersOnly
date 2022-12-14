@@ -1,4 +1,5 @@
 const { body, validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
 const Room = require('../models/room');
 const Message = require('../models/message');
 
@@ -117,5 +118,29 @@ exports.delete_room = async (req, res) => {
       return res.redirect('/');
     }
     res.send("You can't delete this project.");
+  }
+};
+exports.join_private = async (req, res, next) => {
+  const room = await Room.findById(req.params.id);
+
+  if (room && room.password) {
+    bcrypt.compare(req.body.password, room.password, (err, result) => {
+      if (err) {
+        next(err);
+      }
+
+      if (result) {
+        room.members.push(req.user._id);
+        room.save((err) => {
+          if (err) {
+            return next(err);
+          }
+        });
+
+        res.redirect(room.url);
+      } else {
+        res.send('Invalid password');
+      }
+    });
   }
 };
