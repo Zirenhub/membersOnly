@@ -140,7 +140,55 @@ app.use('/log-in', logInRouter);
 app.use('/room', roomRouter);
 app.use('/my-rooms', async (req, res) => {
   if (req.user) {
-    const rooms = await Room.find({ creator: req.user._id });
+    let rooms = await Room.aggregate([
+      {
+        $match: {
+          members: req.user._id,
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          members: 1,
+          password: 1,
+          length: { $size: '$members' },
+        },
+      },
+
+      {
+        $sort: { length: -1 },
+      },
+
+      {
+        $addFields: {
+          password: {
+            $cond: {
+              if: {
+                $eq: [
+                  {
+                    $ifNull: ['$password', ''],
+                  },
+                  '',
+                ],
+              },
+              then: false,
+              else: true,
+            },
+          },
+        },
+      },
+
+      {
+        $project: {
+          name: 1,
+          members: 1,
+          password: 1,
+        },
+      },
+    ]);
+
+    // get back virtuals
+    rooms = rooms.map((room) => Room.hydrate(room));
 
     res.render('index', { user: req.user, rooms: rooms });
   } else {
