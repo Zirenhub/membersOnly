@@ -1,6 +1,6 @@
 # membersOnly
 
-Exclusive clubhouse where members can write anonymous posts. Inside the clubhouse, members can see who the author of a post is, but outside they can only see the story and wonder who wrote it.
+Simple app focused mostly on the backend, where users can create private or public rooms. While anyone can join public rooms, private rooms require a password to join. Inside said rooms users can send messages to each other.
 
 Using Passport.js for authentication.
-Practicing database skills.
+Practicing database and express backend skills.
