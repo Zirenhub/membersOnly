@@ -48,6 +48,9 @@ exports.create_room = [
 exports.open_room = async (req, res) => {
   const room = await Room.findById(req.params.id);
   if (room) {
+    if (room.password && !room.members.includes(req.user._id)) {
+      return res.send("You don't have permission to view this room");
+    }
     if (!room.members.includes(req.user._id)) {
       room.members.push(req.user._id);
       room.save((err) => {
